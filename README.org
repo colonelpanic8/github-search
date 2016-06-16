@@ -2,6 +2,7 @@
 github-search depends on code that has not yet made it into gh.el
 https://github.com/sigma/gh.el/pull/70
 You'll need to use the version of gh.el from that pull request to get things to work for now.
+There is a pending pull request to get github-search into melpa https://github.com/melpa/melpa/pull/3990, but again this depends on the changes to gh.el
 * Installation
 
 Install from MELPA with ~M-x package-install org-projectile~. See the [[https://github.com/milkypostman/melpa][melpa repository]] for details about how to set up MELPA if you have not already done so.
