@@ -35,6 +35,7 @@
 (defvar github-search-get-clone-url-function 'github-search-get-clone-url)
 (defvar github-search-get-target-directory-for-repo-function
   'github-search-prompt-for-target-directory)
+(defvar github-search-clone-repository-function 'magit-clone)
 (defvar github-search-page-limit 1)
 
 (defun github-search-for-completion (search-string &optional page-limit)
@@ -78,7 +79,7 @@
   (let* ((repo (github-search-select-repository-from-search-string search-string))
          (remote-url (funcall github-search-get-clone-url-function repo))
          (target-directory (github-search-get-target-directory-for-repo repo)))
-    (magit-clone remote-url target-directory)))
+    (funcall github-search-clone-repository-function remote-url target-directory)))
 
 (provide 'github-search)
 ;;; github-search.el ends here
