@@ -5,6 +5,6 @@ You'll need to use the version of gh.el from that pull request to get things to 
 There is a pending pull request to get github-search into melpa https://github.com/melpa/melpa/pull/3990, but again this depends on the changes to gh.el
 * Installation
 
-Install from MELPA with ~M-x package-install org-projectile~. See the [[https://github.com/milkypostman/melpa][melpa repository]] for details about how to set up MELPA if you have not already done so.
+Install from MELPA with ~M-x package-install github-search~. See the [[https://github.com/milkypostman/melpa][melpa repository]] for details about how to set up MELPA if you have not already done so.
 * Usage
 Run the command ~github-search-clone-repo~ and select a repository and a location to which to clone said repository.
