@@ -68,7 +68,7 @@
       input-target)))
 
 (defun github-search-get-target-directory-for-repo (repo)
-  (funcall github-search-get-target-directory-for-repo repo))
+  (funcall github-search-get-target-directory-for-repo-function repo))
 
 ;;;###autoload
 (defun github-search-clone-repo (search-string)
