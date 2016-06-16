@@ -1,6 +1,9 @@
+* Status
+github-search depends on code that has not yet made it into gh.el
+https://github.com/sigma/gh.el/pull/70
+You'll need to use the version of gh.el from that pull request to get things to work for now.
 * Installation
 
 Install from MELPA with ~M-x package-install org-projectile~. See the [[https://github.com/milkypostman/melpa][melpa repository]] for details about how to set up MELPA if you have not already done so.
-* Setup
 * Usage
 Run the command ~github-search-clone-repo~ and select a repository and a location to which to clone said repository.
