@@ -32,32 +32,54 @@
 (require 'cl-lib)
 
 (defvar github-search-repo-format-function 'github-search-string-for-repo)
+(defvar github-search-user-format-function 'github-search-string-for-user)
 (defvar github-search-get-clone-url-function 'github-search-get-clone-url)
 (defvar github-search-get-target-directory-for-repo-function
   'github-search-prompt-for-target-directory)
 (defvar github-search-clone-repository-function 'magit-clone)
 (defvar github-search-page-limit 1)
 
+(defun github-search-format-repository (repo)
+  (cons (funcall github-search-repo-format-function repo) repo))
+
+(defun github-search-format-user (user)
+  (cons (funcall github-search-user-format-function user) user))
+
 (defun github-search-for-completion (search-string &optional page-limit)
   (let* ((search-api (make-instance gh-search-api))
          (search-response (gh-search-repos search-api search-string page-limit))
-         (repositories (oref search-response :data)))
-    (cl-loop for repo in repositories
-             collect
-             (cons (funcall github-search-repo-format-function repo) repo))))
+         (repos (oref search-response :data)))
+    (mapcar 'github-search-format-repository repos)))
+
+(defun github-search-users-for-completion (search-string &optional page-limit)
+  (let* ((search-api (make-instance gh-search-api))
+         (search-response (gh-search-users search-api search-string page-limit))
+         (users (oref search-response :data)))
+    (mapcar 'github-search-format-user users)))
+
+(defun github-search-get-repos-from-user-for-completion (user)
+  (let* ((repo-api (make-instance gh-repos-api))
+         (repo-response (gh-repos-user-list repo-api (oref user :login)))
+         (repos (oref repo-response :data)))
+    (mapcar 'github-search-format-repository repos)))
 
 (defun github-search-string-for-repo (repository)
   (format "%s/%s"
           (oref (oref repository :owner) :login)
           (oref repository :name)))
 
+(defun github-search-string-for-user (user)
+  (oref user :login))
+
 (defun github-search-get-clone-url (repository)
   (oref repo :clone-url))
 
-(defun github-search-select-repository-from-search-string (search-string)
-  (let* ((candidates (github-search-for-completion search-string
-                                                   github-search-page-limit))
-         (selection (completing-read "Select a repository: " candidates)))
+(defun github-search-select-user-from-search-string (search-string)
+  (github-search-select-candidate "Select a user: "
+   (github-search-users-for-completion search-string github-search-page-limit)))
+
+(defun github-search-select-candidate (prompt candidates)
+  (let ((selection (completing-read prompt candidates)))
     (cdr (assoc selection candidates))))
 
 (defun github-search-prompt-for-target-directory (repo)
@@ -71,15 +93,28 @@
 (defun github-search-get-target-directory-for-repo (repo)
   (funcall github-search-get-target-directory-for-repo-function repo))
 
+(defun github-search-select-and-clone-repo-from-repos (repos-for-completion)
+  (let* ((repo (github-search-select-candidate "Select a repo: " repos))
+         (remote-url (funcall github-search-get-clone-url-function repo))
+         (target-directory (github-search-get-target-directory-for-repo repo)))
+    (funcall github-search-clone-repository-function remote-url target-directory)))
+
+;;;###autoload
+(defun github-search-user-clone-repo (search-string)
+  "Query github using SEARCH-STRING and clone the selected repository."
+  (interactive
+   (list (read-from-minibuffer "Enter a github user search string: ")))
+  (let* ((user (github-search-select-user-from-search-string search-string))
+         (user-repos (github-search-get-repos-from-user-for-completion user)))
+    (github-search-select-and-clone-repo-from-repos user-repos)))
+
 ;;;###autoload
 (defun github-search-clone-repo (search-string)
   "Query github using SEARCH-STRING and clone the selected repository."
   (interactive
    (list (read-from-minibuffer "Enter a github search string: ")))
-  (let* ((repo (github-search-select-repository-from-search-string search-string))
-         (remote-url (funcall github-search-get-clone-url-function repo))
-         (target-directory (github-search-get-target-directory-for-repo repo)))
-    (funcall github-search-clone-repository-function remote-url target-directory)))
+  (let* ((repos (github-search-for-completion search-string github-search-page-limit)))
+    (github-search-select-and-clone-repo-from-repos repos)))
 
 (provide 'github-search)
 ;;; github-search.el ends here
