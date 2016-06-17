@@ -1,3 +1,4 @@
+[[http://melpa.org/#/github-search][file:http://melpa.org/packages/github-search-badge.svg]]
 * Status
 github-search depends on code that has not yet made it into gh.el
 https://github.com/sigma/gh.el/pull/70
