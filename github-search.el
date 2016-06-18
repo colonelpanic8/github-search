@@ -94,7 +94,7 @@
   (funcall github-search-get-target-directory-for-repo-function repo))
 
 (defun github-search-select-and-clone-repo-from-repos (repos-for-completion)
-  (let* ((repo (github-search-select-candidate "Select a repo: " repos))
+  (let* ((repo (github-search-select-candidate "Select a repo: " repos-for-completion))
          (remote-url (funcall github-search-get-clone-url-function repo))
          (target-directory (github-search-get-target-directory-for-repo repo)))
     (funcall github-search-clone-repository-function remote-url target-directory)))
