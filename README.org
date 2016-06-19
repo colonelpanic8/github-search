@@ -4,3 +4,6 @@
 Install from MELPA with ~M-x package-install github-search~. See the [[https://github.com/milkypostman/melpa][melpa repository]] for details about how to set up MELPA if you have not already done so.
 * Usage
 Run the command ~github-search-clone-repo~ and select a repository and a location to which to clone said repository.
+* Configuration
+** Author's configuration
+Check out the [[https://github.com/IvanMalison/dotfiles/blob/master/dotfiles/emacs.d/README.org#github-search][author's configuration]] for some ideas.
