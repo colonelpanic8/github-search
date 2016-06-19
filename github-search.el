@@ -83,10 +83,11 @@
     (cdr (assoc selection candidates))))
 
 (defun github-search-prompt-for-target-directory (repo)
-  (let ((input-target (read-directory-name
-                       "Clone to: " nil nil nil
-                       (and (string-match "\\([^./]+\\)\\(\\.git\\)?$" remote-url)
-                            (match-string 1 remote-url)))))
+  (let* ((remote-url (funcall github-search-get-clone-url-function repo))
+         (input-target (read-directory-name
+                        "Clone to: " nil nil nil
+                        (and (string-match "\\([^./]+\\)\\(\\.git\\)?$" remote-url)
+                             (match-string 1 remote-url)))))
     (if (file-exists-p input-target) (concat input-target (oref repo :name))
       input-target)))
 
@@ -94,9 +95,12 @@
   (funcall github-search-get-target-directory-for-repo-function repo))
 
 (defun github-search-select-and-clone-repo-from-repos (repos-for-completion)
-  (let* ((repo (github-search-select-candidate "Select a repo: " repos-for-completion))
-         (remote-url (funcall github-search-get-clone-url-function repo))
-         (target-directory (github-search-get-target-directory-for-repo repo)))
+  (github-search-do-repo-clone
+   (github-search-select-candidate "Select a repo: " repos-for-completion)))
+
+(defun github-search-do-repo-clone (repo)
+  (let ((remote-url (funcall github-search-get-clone-url-function repo))
+		(target-directory (github-search-get-target-directory-for-repo repo)))
     (funcall github-search-clone-repository-function remote-url target-directory)))
 
 ;;;###autoload
