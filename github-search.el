@@ -72,7 +72,7 @@
   (oref user :login))
 
 (defun github-search-get-clone-url (repository)
-  (oref repo :clone-url))
+  (oref repo :git-url))
 
 (defun github-search-select-user-from-search-string (search-string)
   (github-search-select-candidate "Select a user: "
