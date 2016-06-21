@@ -23,8 +23,8 @@
 
 ;;; Commentary:
 
-;; This package aims to provide an easy interface to creating per
-;; project org-mode TODO headings.
+;; This package provides functions to clone github repositories that
+;; are selected from queries to the github search api.
 
 ;;; Code:
 (require 'gh-search)
