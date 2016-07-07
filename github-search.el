@@ -117,7 +117,8 @@
   "Query github using SEARCH-STRING and clone the selected repository."
   (interactive
    (list (read-from-minibuffer "Enter a github search string: ")))
-  (let* ((repos (github-search-for-completion search-string github-search-page-limit)))
+  (let* ((repos (github-search-for-completion search-string
+                                              github-search-page-limit)))
     (github-search-select-and-clone-repo-from-repos repos)))
 
 (provide 'github-search)
