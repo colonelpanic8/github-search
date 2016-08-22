@@ -64,9 +64,10 @@
     (mapcar 'github-search-format-repository repos)))
 
 (defun github-search-string-for-repo (repository)
-  (format "%s/%s"
-          (oref (oref repository :owner) :login)
-          (oref repository :name)))
+  (let ((owner (oref repository :owner)))
+    (format "%s/%s"
+            (if owner (oref owner :login) "owner-not-found")
+            (oref repository :name))))
 
 (defun github-search-string-for-user (user)
   (oref user :login))
