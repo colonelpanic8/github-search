@@ -5,7 +5,7 @@
 ;; Author: Ivan Malison <IvanMalison@gmail.com>
 ;; Keywords: github search clone api gh magit
 ;; URL: https://github.com/IvanMalison/github-search
-;; Version: 0.0.0
+;; Version: 0.0.1
 ;; Package-Requires: ((magit "2.1.0") (gh "1.0.0"))
 
 ;; This program is free software; you can redistribute it and/or modify
