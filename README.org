@@ -1,4 +1,5 @@
 [[http://melpa.org/#/github-search][file:http://melpa.org/packages/github-search-badge.svg]]
+[[https://stable.melpa.org/#/github-search][file:https://stable.melpa.org/packages/github-search-badge.svg]]
 * Installation
 
 Install from MELPA with ~M-x package-install github-search~. See the [[https://github.com/milkypostman/melpa][melpa repository]] for details about how to set up MELPA if you have not already done so.
