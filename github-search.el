@@ -36,8 +36,12 @@
 (defvar github-search-get-clone-url-function 'github-search-get-clone-url)
 (defvar github-search-get-target-directory-for-repo-function
   'github-search-prompt-for-target-directory)
-(defvar github-search-clone-repository-function 'magit-clone)
+(defvar github-search-clone-repository-function
+  'github-search-default-clone-repository-function)
 (defvar github-search-page-limit 1)
+
+(defun github-search-default-clone-repository-function (repo directory)
+  (magit-clone-regular repo directory nil))
 
 (defun github-search-format-repository (repo)
   (cons (funcall github-search-repo-format-function repo) repo))
